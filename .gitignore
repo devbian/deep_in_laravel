@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+!/vendr/laravel
 /.idea
 /.vscode
 /.vagrant
