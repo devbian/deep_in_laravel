@@ -137,6 +137,7 @@ class Router implements RegistrarContract, BindingRegistrar
      */
     public function get($uri, $action = null)
     {
+        //var_dump($uri);
         return $this->addRoute(['GET', 'HEAD'], $uri, $action);
     }
 

@@ -17,6 +17,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Console\Kernel as KernelContract;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
+/**
+ * Console相关的启动类，功能相对多点，里面还有队列相关的操作
+ * Class Kernel
+ * @package Illuminate\Foundation\Console
+ */
 class Kernel implements KernelContract
 {
     /**

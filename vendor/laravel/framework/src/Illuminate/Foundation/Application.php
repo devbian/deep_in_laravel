@@ -22,6 +22,12 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
+/**
+ * laravel的启动类，是一切的爸爸
+ * 它是一个数据，里面有各种各样的东西,可以通过它的变量就可以知道一二
+ * Class Application
+ * @package Illuminate\Foundation
+ */
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
     /**
@@ -148,10 +154,16 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
             $this->setBasePath($basePath);
         }
 
+        // 设置基础绑定，具体绑定了哪些内容，待查
         $this->registerBaseBindings();
 
+        // 加载基础的Service Provider， 包括 事件， 日志， 路由
+        // TODO:: 这里有个疑惑，路由的加载，应该只是在HTTP相关功能时使用，但是这个Application
+        // TODO:: 是http 和 console（artisan）都会使用的入口，在console的情况下，加载路由信息是否就没有必要了？
+        // TODO:: 是否就会造成性能的浪费
         $this->registerBaseServiceProviders();
 
+        // 一堆别名的加载
         $this->registerCoreContainerAliases();
     }
 
@@ -199,6 +211,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
 
     /**
      * Run the given array of bootstrap classes.
+     * 分别在console/kernel.php 和 http/kernel.php 中有调用
      *
      * @param  array  $bootstrappers
      * @return void
@@ -208,10 +221,13 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
         $this->hasBeenBootstrapped = true;
 
         foreach ($bootstrappers as $bootstrapper) {
+            // 触发bootstrapping事件
             $this['events']->fire('bootstrapping: '.$bootstrapper, [$this]);
 
+            // 分别调用每个bootstrapper中的bootstrap方法
             $this->make($bootstrapper)->bootstrap($this);
 
+            // 加载完成
             $this['events']->fire('bootstrapped: '.$bootstrapper, [$this]);
         }
     }

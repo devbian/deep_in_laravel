@@ -14,6 +14,8 @@ return [
     | Supported: "file", "cookie", "database", "apc",
     |            "memcached", "redis", "array"
     |
+    | Session支持多种多样的文件格式, apc 是另一个php cache http://php.net/manual/zh/intro.apc.php
+    |
     */
 
     'driver' => env('SESSION_DRIVER', 'file'),
@@ -47,6 +49,7 @@ return [
     'encrypt' => false,
 
     /*
+     * Session 存储位置
     |--------------------------------------------------------------------------
     | Session File Location
     |--------------------------------------------------------------------------
@@ -124,7 +127,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        str_slug(env('APP_NAME', 'laravel'), '_').'_session'
+        str_slug(env('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*

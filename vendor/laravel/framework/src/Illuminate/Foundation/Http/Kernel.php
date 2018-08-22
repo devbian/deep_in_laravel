@@ -104,6 +104,7 @@ class Kernel implements KernelContract
 
     /**
      * Handle an incoming HTTP request.
+     * 在 public/index.php 中，会调用handle
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -113,6 +114,9 @@ class Kernel implements KernelContract
         try {
             $request->enableHttpMethodParameterOverride();
 
+            // 开始加载各种http相关信息，路由加载也是这里
+            // 以上注释有误： 路由的加载不是在这里，这里的__construct方法已经是将路由传进来了
+            // 路由的加载是在Application启动时就做了
             $response = $this->sendRequestThroughRouter($request);
         } catch (Exception $e) {
             $this->reportException($e);
@@ -143,6 +147,7 @@ class Kernel implements KernelContract
 
         Facade::clearResolvedInstance('request');
 
+        // 加载http相关信息
         $this->bootstrap();
 
         return (new Pipeline($this->app))
@@ -153,6 +158,7 @@ class Kernel implements KernelContract
 
     /**
      * Bootstrap the application for HTTP requests.
+     * 启动http时，加载对应的类
      *
      * @return void
      */
@@ -253,6 +259,7 @@ class Kernel implements KernelContract
     }
 
     /**
+     * 这是这个类专门的public方法，不是对接口的实现
      * Determine if the kernel has a given middleware.
      *
      * @param  string  $middleware
@@ -264,6 +271,7 @@ class Kernel implements KernelContract
     }
 
     /**
+     * 这是这个类专门的public方法，不是对接口的实现
      * Add a new middleware to beginning of the stack if it does not already exist.
      *
      * @param  string  $middleware
@@ -279,6 +287,7 @@ class Kernel implements KernelContract
     }
 
     /**
+     * 这是这个类专门的public方法，不是对接口的实现
      * Add a new middleware to end of the stack if it does not already exist.
      *
      * @param  string  $middleware

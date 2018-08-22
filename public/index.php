@@ -5,7 +5,7 @@ define('LARAVEL_START', microtime(true));
 // 加载vendor中对应的类
 require __DIR__.'/../vendor/autoload.php';
 
-// 启动 laravel container
+// 启动 laravel container, 初始化一个Application
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
 // 处理网络请求
